@@ -57,7 +57,7 @@ async function openBankApp(bank) {
 function doRedirect() {
   const bank = lastBank;
   const qrContent = lastQrContent;
-  const redirect_client_url_value = "https://your_redirect_url.com";
+  const redirect_client_url_value = "https://resonant-paprenjak-dab66f.netlify.app/";
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
   const appScheme = isIOS ? bank.ios_scheme : bank.andr_scheme;
   const appLink = isIOS ? bank.ios_app_link : bank.andr_app_link;
