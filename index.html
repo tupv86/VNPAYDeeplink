@@ -8,29 +8,49 @@
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <h1>🛒 Shop PWA VNPAY</h1>
-
-  <section id="product-list"></section>
-
-  <h2>🧺 Giỏ hàng</h2>
-  <ul id="cart-list"></ul>
-  <p>Tổng số sản phẩm: <span id="cart-count">0</span></p>
-  <p>Tổng tiền: <span id="cart-total">0</span> VND</p>
-
-  <h3>Phương thức thanh toán</h3>
-  <select id="payment-method">
-    <option value="direct">Trực tiếp</option>
-    <option value="vnpay-payment">VNPAY Payment</option>
-    <option value="vnpay-deeplink">VNPAY Deeplink</option>
-  </select>
-  <button onclick="checkout()">Thanh toán</button>
-
-  <div id="deeplink-section" style="display:none;">
-    <h3>Chọn Ngân hàng</h3>
-    <div id="bankGrid" class="bank-grid"></div>
-    <div id="debugBox"></div>
+  <!-- ================= HEADER ================= -->
+<header>
+  <div class="header-left">
+    <h1>🛒 VNPAY Deeplink</h1>
   </div>
+  <div class="header-right">
+    <span>🧺 Tổng SP: <span id="cart-count">0</span> | Tổng tiền: <span id="cart-total">0</span> VND</span>
+    <button id="view-cart-btn">Xem chi tiết</button>
+  </div>
+</header>
 
+<!-- ================= CART DETAILS ================= -->
+<div id="cart-details" style="display:none;">
+  <h3>Chi tiết giỏ hàng</h3>
+  <ul id="cart-list"></ul>
+</div>
+
+
+  <!-- PRODUCT GRID -->
+  <main>
+    <section id="product-list" class="product-grid"></section>
+
+    <h3>Phương thức thanh toán</h3>
+    <select id="payment-method">
+      <option value="direct">Trực tiếp</option>
+      <option value="vnpay-payment">VNPAY Payment</option>
+      <option value="vnpay-deeplink">VNPAY Deeplink</option>
+    </select>
+    <button onclick="checkout()">Thanh toán</button>
+
+    <div id="deeplink-section" style="display:none;">
+      <h3>Chọn Ngân hàng</h3>
+      <div id="bankGrid" class="bank-grid"></div>
+      <div id="debugBox"></div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Copyright © Phạm Văn Tú
+  </footer>
+
+  <!-- Scripts -->
   <script src="scripts/cart.js"></script>
   <script src="scripts/bankDeeplink.js"></script>
   <script src="scripts/app.js"></script>

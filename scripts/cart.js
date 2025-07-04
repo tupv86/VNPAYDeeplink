@@ -1,15 +1,39 @@
+// ================= CART ===================
 let cart = [];
 
+// Thêm sản phẩm vào giỏ
 function addToCart(product) {
-  cart.push(product);
+  const existing = cart.find(p => p.id === product.id);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
   saveCart();
 }
 
-function removeFromCart(index) {
-  cart.splice(index, 1);
+function increaseQuantity(index) {
+  if (cart[index].quantity === undefined || isNaN(cart[index].quantity)) {
+    cart[index].quantity = 1; // fallback nếu dữ liệu lỗi
+  }
+  cart[index].quantity += 1;
   saveCart();
 }
 
+function decreaseQuantity(index) {
+  if (cart[index].quantity === undefined || isNaN(cart[index].quantity)) {
+    cart[index].quantity = 1; // fallback
+  }
+  if (cart[index].quantity > 1) {
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+  saveCart();
+}
+
+
+// Save + Render
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
   renderCart();
@@ -20,18 +44,40 @@ function loadCart() {
 }
 
 function calculateCartTotal() {
-  return cart.reduce((sum, item) => sum + item.price, 0);
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
+// Render header + chi tiết
 function renderCart() {
+  // Header info
+  console.log('DEBUG cart:', cart);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById('cart-count').textContent = totalItems;
+  document.getElementById('cart-total').textContent = calculateCartTotal();
+
+  // Chi tiết
   const cartList = document.getElementById('cart-list');
   cartList.innerHTML = '';
   cart.forEach((item, i) => {
     const li = document.createElement('li');
-    li.textContent = `${item.name} - ${item.price} VND`;
-    li.onclick = () => removeFromCart(i);
+    li.innerHTML = `
+      ${item.name} - ${item.price} VND x ${item.quantity}
+      <span class="cart-item-controls">
+        <button onclick="decreaseQuantity(${i})">➖</button>
+        <button onclick="increaseQuantity(${i})">➕</button>
+      </span>
+    `;
     cartList.appendChild(li);
   });
-  document.getElementById('cart-count').textContent = cart.length;
-  document.getElementById('cart-total').textContent = calculateCartTotal();
 }
+
+// ================= CART TOGGLE ===================
+document.addEventListener('DOMContentLoaded', () => {
+  loadCart();
+  renderCart();
+
+  document.getElementById('view-cart-btn').addEventListener('click', () => {
+    const details = document.getElementById('cart-details');
+    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+  });
+});

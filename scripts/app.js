@@ -20,6 +20,7 @@ function renderProducts() {
   });
 }
 
+
 function checkout() {
   const method = document.getElementById('payment-method').value;
   if (method === 'direct') {
