@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  margin: 30px;
+}
+
+#product-list div {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.bank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.bank-item {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.bank-logo {
+  width: 80px;
+  cursor: pointer;
+}

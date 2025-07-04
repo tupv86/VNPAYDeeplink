@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop PWA VNPAY</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <h1>🛒 Shop PWA VNPAY</h1>
+
+  <section id="product-list"></section>
+
+  <h2>🧺 Giỏ hàng</h2>
+  <ul id="cart-list"></ul>
+  <p>Tổng số sản phẩm: <span id="cart-count">0</span></p>
+  <p>Tổng tiền: <span id="cart-total">0</span> VND</p>
+
+  <h3>Phương thức thanh toán</h3>
+  <select id="payment-method">
+    <option value="direct">Trực tiếp</option>
+    <option value="vnpay-payment">VNPAY Payment</option>
+    <option value="vnpay-deeplink">VNPAY Deeplink</option>
+  </select>
+  <button onclick="checkout()">Thanh toán</button>
+
+  <div id="deeplink-section" style="display:none;">
+    <h3>Chọn Ngân hàng</h3>
+    <div id="bankGrid" class="bank-grid"></div>
+    <div id="debugBox"></div>
+  </div>
+
+  <script src="scripts/cart.js"></script>
+  <script src="scripts/bankDeeplink.js"></script>
+  <script src="scripts/app.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker registered!'));
+    }
+  </script>
+</body>
+</html>
