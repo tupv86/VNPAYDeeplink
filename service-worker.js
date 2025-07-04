@@ -19,6 +19,12 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) {
+    // Cho phép request cross-origin chạy bình thường
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(
       response => response || fetch(event.request)
