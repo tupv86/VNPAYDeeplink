@@ -1,13 +1,13 @@
 let bankData = [];
 
 async function renderBankList() {
-  const res = await fetch('/data/bankData.json');
+  const res = await fetch("/data/bankData.json");
   bankData = await res.json();
 
   const bankGrid = document.getElementById("bankGrid");
-  bankGrid.innerHTML = '';
+  bankGrid.innerHTML = "";
 
-  bankData.forEach(bank => {
+  bankData.forEach((bank) => {
     const bankItem = document.createElement("div");
     bankItem.className = "bank-item";
 
@@ -30,10 +30,14 @@ async function renderBankList() {
 }
 
 async function openBankApp(bank) {
+  const amount = calculateCartTotal();
+  const orderInfo = cart.map(item => `${item.id}_${item.quantity}`).join(',');
   console.log("Bank object:", bank);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr");
+    const response = await fetch(
+      `https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr&amount=${amount}&orderInfo=${encodeURIComponent(orderInfo)}`
+    );
     const data = await response.json();
 
     console.log("QR Content:", data.qrcontent);
@@ -50,10 +54,8 @@ async function openBankApp(bank) {
   }
 }
 
-
-
 function doRedirect() {
-  const bank= lastBank;
+  const bank = lastBank;
   const qrContent = lastQrContent;
   const redirect_client_url_value = "https://your_redirect_url.com";
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -64,9 +66,15 @@ function doRedirect() {
   if (bank.deeplink_support === "1" && appScheme !== "#") {
     let deeplink = "";
     if (isIOS) {
-      deeplink = `${appScheme}://${encodeURIComponent(qrContent)}?callbackurl=${encodeURIComponent(redirect_client_url_value)}`;
+      deeplink = `${appScheme}://${encodeURIComponent(
+        qrContent
+      )}?callbackurl=${encodeURIComponent(redirect_client_url_value)}`;
     } else {
-      deeplink = `intent://view?data=${encodeURIComponent(qrContent)}&callbackurl=${encodeURIComponent(redirect_client_url_value)}#Intent;scheme=${appScheme};package=${appPackage};end`;
+      deeplink = `intent://view?data=${encodeURIComponent(
+        qrContent
+      )}&callbackurl=${encodeURIComponent(
+        redirect_client_url_value
+      )}#Intent;scheme=${appScheme};package=${appPackage};end`;
     }
 
     console.log("Open deeplink:", deeplink);
