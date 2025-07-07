@@ -6,11 +6,17 @@
   <title>Trạng thái giao dịch</title>
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
-<body>
-  <h2>🎉 Kết quả thanh toán</h2>
-  <p>Mã đơn: <span id="orderId"></span></p>
-  <p>Trạng thái: <span id="status"></span></p>
-  <p>Số tiền: <span id="amount"></span> VND</p>
+<body class="return-page">
+  <div class="return-container">
+    <h2>🎉 Kết quả thanh toán tại VNPAY</h2>
+    <p>Mã đơn: <span id="orderId"></span></p>
+    <p>Thông tin đơn hàng: <span id="orderInfo"></span></p>
+    <p>Trạng thái: <span id="status"></span></p>
+    <p>Số tiền: <span id="amount"></span> VND</p>
+    <p>Thời gian thanh toán: <span id="createDate"></span></p>
+
+    <a href="/" class="return-home-btn">🔙 Quay về trang chủ</a>
+  </div>
 
   <script src="scripts/returnStatus.js"></script>
 </body>

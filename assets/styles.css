@@ -207,3 +207,49 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+
+
+
+/* ================= RETURN PAGE ================= */
+body.return-page {
+  font-family: Arial, sans-serif;
+  background: #f8f8f8;
+  margin: 0;
+  padding: 0;
+}
+
+.return-container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.return-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.return-container p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.return-home-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: #317EFB;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.return-home-btn:hover {
+  background: #155ec6;
+}
