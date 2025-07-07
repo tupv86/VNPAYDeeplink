@@ -1,4 +1,5 @@
 let bankData = [];
+const orderId = Date.now();
 
 async function renderBankList() {
   const res = await fetch("/data/bankData.json");
@@ -36,7 +37,7 @@ async function openBankApp(bank) {
 
   try {
     const response = await fetch(
-      `https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr&amount=${amount}&orderInfo=${encodeURIComponent(orderInfo)}`
+      `https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr&amount=${amount}&orderId=${orderId}&orderInfo=${encodeURIComponent(orderInfo)}`
     );
     const data = await response.json();
 
@@ -58,6 +59,7 @@ function doRedirect() {
   const bank = lastBank;
   const qrContent = lastQrContent;
   const redirect_client_url_value = "https://resonant-paprenjak-dab66f.netlify.app/return";
+  const callbackUrl = `${redirect_client_url_value}?orderId=${orderId}`;
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
   const appScheme = isIOS ? bank.ios_scheme : bank.andr_scheme;
   const appLink = isIOS ? bank.ios_app_link : bank.andr_app_link;
@@ -68,12 +70,12 @@ function doRedirect() {
     if (isIOS) {
       deeplink = `${appScheme}://${encodeURIComponent(
         qrContent
-      )}?callbackurl=${encodeURIComponent(redirect_client_url_value)}`;
+      )}?callbackurl=${encodeURIComponent(callbackUrl)}`;
     } else {
       deeplink = `intent://view?data=${encodeURIComponent(
         qrContent
       )}&callbackurl=${encodeURIComponent(
-        redirect_client_url_value
+        callbackUrl
       )}#Intent;scheme=${appScheme};package=${appPackage};end`;
     }
 
