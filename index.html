@@ -30,16 +30,103 @@
       <div id="cart-details" style="display: none">
         <h3>Chi tiết giỏ hàng</h3>
         <ul id="cart-list"></ul>
-
-        <!-- PAYMENT SECTION NÊN ĐẶT Ở ĐÂY -->
+        <!-- ================= PAYMENT SECTION ================= -->
         <div id="payment-section">
           <h4>Chọn phương thức thanh toán</h4>
-          <select id="payment-method">
-            <option value="direct">Trực tiếp</option>
-            <option value="vnpay-payment">VNPAY Payment</option>
-            <option value="vnpay-deeplink">VNPAY Deeplink</option>
-          </select>
-          <button onclick="checkout()">Thanh toán</button>
+
+          <label>
+            <input type="radio" name="payment-method" value="direct" checked />
+            Trực tiếp </label
+          ><br />
+
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-payment" />
+            VNPAY Payment </label
+          ><br />
+
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-deeplink" />
+            VNPAY Deeplink </label
+          ><br />
+
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-token" />
+            VNPAY Token </label
+          ><br />
+
+          <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
+          <button
+            id="payment-button"
+            onclick="handlePayment()"
+            style="display: none"
+          >
+            Thanh toán
+          </button>
+        </div>
+
+        <!-- ================= VNPAY TOKEN FORM ================= -->
+        <div id="token-form-section" style="display: none">
+          <h2>Tạo Token / Thanh toán & Tạo Token</h2>
+          <form id="tokenForm" onsubmit="submitForm(); return false;">
+            <label>Loại thao tác:</label>
+            <select
+              name="vnp_command"
+              id="vnp_command"
+              onchange="onCommandChange()"
+              required
+            >
+              <option value="token_create">Tạo Token (token_create)</option>
+              <option value="pay_and_create">
+                Thanh toán & Tạo Token (pay_and_create)
+              </option></select
+            ><br />
+
+            <label>User ID:</label>
+            <input
+              type="text"
+              name="vnp_app_user_id"
+              value="U001"
+              required
+            /><br />
+
+            <label>Mô tả giao dịch:</label>
+            <input
+              type="text"
+              name="vnp_txn_desc"
+              value="Create token, create token and pay"
+              required
+            /><br />
+
+            <label>Loại thẻ:</label>
+            <select name="vnp_card_type" required>
+              <option value="01">01 - Thẻ nội địa</option>
+              <option value="02">02 - Thẻ quốc tế</option></select
+            ><br />
+
+            <div id="amountGroup" style="display: none">
+              <label>Số tiền (VND):</label>
+              <input
+                type="number"
+                name="vnp_amount"
+                min="1000"
+                step="1000"
+                value="100000"
+                required
+              /><br />
+            </div>
+
+            <div id="storeTokenGroup" style="display: none">
+              <label>Lưu Token sau thanh toán?</label>
+              <select name="vnp_store_token" id="vnp_store_token">
+                <option value="">Có (mặc định)</option>
+                <option value="1">Không lưu</option></select
+              ><br />
+            </div>
+
+            <input type="hidden" name="vnp_txn_ref" id="vnp_txn_ref" />
+
+            <button type="submit">Gửi yêu cầu</button>
+          </form>
         </div>
 
         <!-- Bank list hiển thị sau khi chọn VNPAY Deeplink -->
@@ -58,7 +145,7 @@
     <script src="scripts/cart.js"></script>
     <script src="scripts/bankDeeplink.js"></script>
     <script src="scripts/app.js"></script>
-
+    <script src="scripts/payment.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker

@@ -22,7 +22,9 @@ function renderProducts() {
 
 
 function checkout() {
-  const method = document.getElementById('payment-method').value;
+  // Tìm input đang được chọn
+  const method = document.querySelector('input[name="payment-method"]:checked').value;
+
   if (method === 'direct') {
     alert('Thanh toán trực tiếp.');
   } else if (method === 'vnpay-payment') {
@@ -32,6 +34,7 @@ function checkout() {
     renderBankList();
   }
 }
+
 
 loadCart();
 renderCart();
