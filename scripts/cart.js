@@ -82,3 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
     details.style.display = details.style.display === "none" ? "block" : "none";
   });
 });
+
+
+document.getElementById('clear-cart-btn').addEventListener('click', () => {
+  if (confirm('Bạn có chắc muốn xóa toàn bộ giỏ hàng?')) {
+    localStorage.removeItem('cart');
+    localStorage.removeItem('lastOrderId');
+    loadCart();
+    renderCart();
+    alert('Đã xóa toàn bộ giỏ hàng.');
+  }
+});

@@ -9,16 +9,19 @@
   </head>
   <body>
     <!-- ================= HEADER ================= -->
-    <header>
+    <header class="app-header">
       <div class="header-left">
-        <h1>🛒 VNPAY Deeplink</h1>
+        <h1>🛒 VNPAY</h1>
       </div>
       <div class="header-right">
-        <span
-          >🧺 Tổng SP: <span id="cart-count">0</span> | Tổng tiền:
-          <span id="cart-total">0</span> VND</span
-        >
-        <button id="view-cart-btn">Xem chi tiết</button>
+        <div class="cart-summary">
+          🧺 Tổng SP: <span id="cart-count">0</span><br />
+          Tổng tiền: <span id="cart-total">0</span> VND
+        </div>
+        <div class="header-buttons">
+          <button id="view-cart-btn">Xem chi tiết</button>
+          <button id="clear-cart-btn">🗑 Xóa giỏ</button>
+        </div>
       </div>
     </header>
 
@@ -53,8 +56,7 @@
             <input type="radio" name="payment-method" value="vnpay-token" />
             VNPAY Token </label
           ><br />
-          
-          
+
           <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
           <button
             id="payment-button"
@@ -66,19 +68,19 @@
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
-        <div id="checkout-info" style="display:none;">
+        <div id="checkout-info" style="display: none">
           <h4>Thông tin khách hàng</h4>
           <label>Họ và tên:</label>
-          <input type="text" id="customer-name" required><br>
+          <input type="text" id="customer-name" required /><br />
 
           <label>Số điện thoại:</label>
-          <input type="tel" id="customer-phone" required><br>
+          <input type="tel" id="customer-phone" required /><br />
 
           <label>Email:</label>
-          <input type="email" id="customer-email" required><br>
+          <input type="email" id="customer-email" required /><br />
 
           <label>Địa chỉ nhận hàng:</label>
-          <textarea id="customer-address" required></textarea><br>
+          <textarea id="customer-address" required></textarea><br />
         </div>
 
         <!-- ================= VNPAY TOKEN FORM ================= -->

@@ -11,37 +11,82 @@ main {
 }
 
 /* ================= HEADER ================= */
-header {
+/* ================= HEADER ================= */
+
+@media (max-width: 480px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .header-right {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .header-buttons {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  #view-cart-btn,
+  #clear-cart-btn {
+    flex: 1 1 48%;
+  }
+}
+
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #317EFB;
-  color: white;
-  padding: 10px 20px;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
 }
 
 .header-left h1 {
   margin: 0;
+  font-size: 1.2em;
+  line-height: 1.4em;
 }
 
 .header-right {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
 }
 
-#view-cart-btn {
-  background: white;
+.cart-summary {
+  font-size: 0.9em;
+  line-height: 1.4em;
+}
+
+.header-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+#view-cart-btn,
+#clear-cart-btn {
+  background: #fff;
   color: #317EFB;
   border: none;
   padding: 5px 10px;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
+  flex: 1 1 auto; /* Cho phép co dãn */
 }
 
-#view-cart-btn:hover {
+#view-cart-btn:hover,
+#clear-cart-btn:hover {
   background: #f0f0f0;
 }
+
+
 
 /* ================= PRODUCT GRID ================= */
 .product-grid {
