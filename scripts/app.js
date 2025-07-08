@@ -27,13 +27,15 @@ async function checkCartStatusOnLoad() {
     const data = await res.json();
     if (data.status === 'success') {
       localStorage.removeItem('cart');
+      localStorage.removeItem('lastOrderId');
       console.log("Đã clear giỏ hàng vì đơn đã success!");
     }
   }
 }
 
-checkCartStatusOnLoad();
-
-loadCart();
-renderCart();
-loadProducts();
+(async () => {
+  await checkCartStatusOnLoad();
+  loadCart();
+  renderCart();
+  loadProducts();
+})();
