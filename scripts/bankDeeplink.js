@@ -9,6 +9,8 @@ async function renderBankList() {
   const bankGrid = document.getElementById("bankGrid");
   bankGrid.innerHTML = "";
 
+  let isProcessing = false; // ⚡ biến chặn double click
+
   bankData.forEach((bank) => {
     const bankItem = document.createElement("div");
     bankItem.className = "bank-item";
@@ -18,18 +20,25 @@ async function renderBankList() {
     logo.alt = `${bank.app_name} logo`;
     logo.className = "bank-logo";
 
-    logo.addEventListener("click", () => {
-      openBankApp(bank);
-    });
-
     const appName = document.createElement("p");
     appName.textContent = bank.app_name;
+
+    // ✅ Gắn click lên toàn div bankItem
+    bankItem.addEventListener("click", () => {
+      if (isProcessing) return; // chặn spam
+      isProcessing = true;
+
+      bankItem.classList.add("active"); // bôi đậm, đổi màu
+
+      openBankApp(bank);
+    });
 
     bankItem.appendChild(logo);
     bankItem.appendChild(appName);
     bankGrid.appendChild(bankItem);
   });
 }
+
 
 async function openBankApp(bank) {
 

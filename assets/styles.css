@@ -144,15 +144,22 @@ header {
 
 .bank-item {
   border: 1px solid #ccc;
+  border-radius: 8px;
   padding: 8px;
   text-align: center;
-  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.bank-item.active {
+  border: 2px solid #317EFB;
+  box-shadow: 0 0 10px rgba(49, 126, 251, 0.5);
 }
 
 .bank-logo {
   width: 80px;
-  cursor: pointer;
 }
+
 
 /* ================= VNPAY TOKEN FORM ================= */
 #token-form-section {
