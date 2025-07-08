@@ -20,6 +20,15 @@ function renderProducts() {
   });
 }
 
+async function clearAppCache() {
+  if ('caches' in window) {
+    const names = await caches.keys();
+    for (let name of names) {
+      await caches.delete(name);
+      console.log(`🗑️ Đã clear cache: ${name}`);
+    }
+  }
+}
 async function checkCartStatusOnLoad() {
   const lastOrderId = localStorage.getItem('lastOrderId'); // Hoặc bạn lưu orderId khi tạo link
   if (lastOrderId) {
@@ -29,6 +38,7 @@ async function checkCartStatusOnLoad() {
       localStorage.removeItem('cart');
       localStorage.removeItem('lastOrderId');
       console.log("Đã clear giỏ hàng vì đơn đã success!");
+      await clearAppCache(); // ✅ Clear Cache Storage luôn!
     }
   }
 }
