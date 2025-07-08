@@ -1,5 +1,6 @@
 let bankData = [];
 const orderId = Date.now();
+localStorage.setItem('lastOrderId', orderId);
 
 async function renderBankList() {
   const res = await fetch("/data/bankData.json");
@@ -31,13 +32,24 @@ async function renderBankList() {
 }
 
 async function openBankApp(bank) {
+
+  const customerInfo = {
+  name: document.getElementById('customer-name').value.trim(),
+  phone: document.getElementById('customer-phone').value.trim(),
+  email: document.getElementById('customer-email').value.trim(),
+  address: document.getElementById('customer-address').value.trim()
+  };
+  if (!customerInfo.name || !customerInfo.phone || !customerInfo.email || !customerInfo.address) {
+  alert('Vui lòng nhập đầy đủ thông tin khách hàng.');
+  return;
+  }
   const amount = calculateCartTotal();
   const orderInfo = cart.map(item => `${item.id}_${item.quantity}`).join(',');
   console.log("Bank object:", bank);
 
   try {
     const response = await fetch(
-      `https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr&amount=${amount}&orderId=${orderId}&orderInfo=${encodeURIComponent(orderInfo)}`
+      `https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getqr&amount=${amount}&orderId=${orderId}&orderInfo=${encodeURIComponent(orderInfo)}&customerName=${encodeURIComponent(customerInfo.name)}&customerPhone=${encodeURIComponent(customerInfo.phone)}&customerEmail=${encodeURIComponent(customerInfo.email)}&customerAddress=${encodeURIComponent(customerInfo.address)}`
     );
     const data = await response.json();
 
@@ -45,10 +57,10 @@ async function openBankApp(bank) {
 
     lastBank = bank;
     lastQrContent = data.qrcontent;
-
-    document.getElementById("debugBox").innerHTML = `
+    doRedirect();
+   /* document.getElementById("debugBox").innerHTML = `
       <button onclick="doRedirect()">Mở App</button>
-    `;
+    `;*/
   } catch (error) {
     console.error("Lỗi gọi API:", error);
     alert("Có lỗi khi lấy QR: " + error.message);

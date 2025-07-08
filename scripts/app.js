@@ -20,21 +20,19 @@ function renderProducts() {
   });
 }
 
-
-function checkout() {
-  // Tìm input đang được chọn
-  const method = document.querySelector('input[name="payment-method"]:checked').value;
-
-  if (method === 'direct') {
-    alert('Thanh toán trực tiếp.');
-  } else if (method === 'vnpay-payment') {
-    window.location.href = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?...';
-  } else if (method === 'vnpay-deeplink') {
-    document.getElementById('deeplink-section').style.display = 'block';
-    renderBankList();
+async function checkCartStatusOnLoad() {
+  const lastOrderId = localStorage.getItem('lastOrderId'); // Hoặc bạn lưu orderId khi tạo link
+  if (lastOrderId) {
+    const res = await fetch(`https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec?action=getOrderStatus&orderId=${lastOrderId}`);
+    const data = await res.json();
+    if (data.status === 'success') {
+      localStorage.removeItem('cart');
+      console.log("Đã clear giỏ hàng vì đơn đã success!");
+    }
   }
 }
 
+checkCartStatusOnLoad();
 
 loadCart();
 renderCart();

@@ -253,3 +253,49 @@ body.return-page {
 .return-home-btn:hover {
   background: #155ec6;
 }
+
+
+/* ================= CHECKOUT INFO ================= */
+#checkout-info {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  max-width: 500px;
+}
+
+#checkout-info h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #317EFB;
+}
+
+#checkout-info label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#checkout-info input,
+#checkout-info textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+#checkout-info input:focus,
+#checkout-info textarea:focus {
+  border-color: #317EFB;
+  outline: none;
+}
+
+#checkout-info textarea {
+  min-height: 60px;
+  resize: vertical;
+}
