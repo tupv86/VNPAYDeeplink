@@ -28,9 +28,16 @@ async function renderBankList() {
       if (isProcessing) return; // chặn spam
       isProcessing = true;
 
-      bankItem.classList.add("active"); // bôi đậm, đổi màu
+      bankItem.classList.add("active");
 
       openBankApp(bank);
+
+      // ⚡ Chặn 10 giây
+      setTimeout(() => {
+        isProcessing = false;
+        bankItem.classList.remove("active");
+        console.log("✅ Cho phép click lại Bank khác");
+      }, 10 * 1000);
     });
 
     bankItem.appendChild(logo);

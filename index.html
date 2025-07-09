@@ -60,7 +60,7 @@
           <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
           <button
             id="payment-button"
-            onclick="handlePayment()"
+            onclick="handlePaymentGet()"
             style="display: none"
           >
             Thanh toán
@@ -165,6 +165,7 @@
     <script src="scripts/bankDeeplink.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/payment.js"></script>
+    <script src="scripts/token.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker

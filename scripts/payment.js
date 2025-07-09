@@ -20,7 +20,7 @@ function handleMethodChange() {
 }
 
 
-async function handlePayment() {
+async function handlePaymentGet() {  // Cách 1 sử dữ liệu từ frontend về theo param querystring
 
   const customerInfo = {
   name: document.getElementById('customer-name').value.trim(),
@@ -49,13 +49,49 @@ async function handlePayment() {
 }
 
 
-function onCommandChange() {
-  const command = document.getElementById('vnp_command').value;
-  document.getElementById('amountGroup').style.display = (command === 'pay_and_create') ? 'block' : 'none';
-  document.getElementById('storeTokenGroup').style.display = (command === 'pay_and_create') ? 'block' : 'none';
+
+async function handlePaymentPost() {   //Cách 2: Sử dụng  đẩy json từ frontend về Server. Hiện tại không sử dụng, viết để tham khảo
+  const customerInfo = {
+  name: document.getElementById('customer-name').value.trim(),
+  phone: document.getElementById('customer-phone').value.trim(),
+  email: document.getElementById('customer-email').value.trim(),
+  address: document.getElementById('customer-address').value.trim()
+  };
+  if (!customerInfo.name || !customerInfo.phone || !customerInfo.email || !customerInfo.address) {
+  alert('Vui lòng nhập đầy đủ thông tin khách hàng.');
+  return;
+  }
+  const amount = calculateCartTotal();
+  const orderId = Date.now();
+  localStorage.setItem('lastOrderId', orderId);
+  const orderInfo = cart.map(item => `${item.id}_${item.quantity}`).join(',');
+ 
+  const response = await fetch(
+    "https://script.google.com/macros/s/AKfycbw9nAJs9S_-hr6KwZz9YgYCNmpbvogUwi_i8XPnUhiCrZ8xpniN_rOrt3uLSCDEVgCmgg/exec",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: "getPaymentUrlPost",
+        amount: amount,
+        orderId: orderId,
+        orderInfo: orderInfo,
+        customerName: customerInfo.name,
+        customerPhone: customerInfo.phone,
+        customerEmail: customerInfo.email,
+        customerAddress: customerInfo.address
+      })
+    }
+  );
+
+  const data = await response.json();
+  if (data.url) {
+    window.location.href = data.url;
+  } else {
+    alert("Có lỗi khi tạo link thanh toán");
+  }
 }
 
-function submitForm() {
-  alert('Gửi form token...');
-  // Thực hiện logic gửi yêu cầu token ở đây
-}
+
