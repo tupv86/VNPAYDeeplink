@@ -1,6 +1,6 @@
 async function loadOrderStatus() {
   const urlParams = new URLSearchParams(window.location.search);
-  const orderId = urlParams.get('vnp_TxnRef') || urlParams.get('orderId');
+  const orderId = urlParams.get('vnp_txn_ref')||urlParams.get('vnp_TxnRef') || urlParams.get('orderId');
 
   if (!orderId) {
     document.getElementById('status').innerText = "Không tìm thấy mã đơn.";

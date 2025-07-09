@@ -20,7 +20,7 @@ function handleMethodChange() {
 }
 
 
-async function handlePaymentGet() {  // Cách 1 sử dữ liệu từ frontend về theo param querystring
+async function handlePayment() {  // Cách 1 sử dữ liệu từ frontend về theo param querystring
 
   const customerInfo = {
   name: document.getElementById('customer-name').value.trim(),
