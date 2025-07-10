@@ -56,15 +56,6 @@
             <input type="radio" name="payment-method" value="vnpay-token" />
             VNPAY Token </label
           ><br />
-
-          <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
-          <button
-            id="payment-button"
-            onclick="handlePayment()"
-            style="display: none"
-          >
-            Thanh toán
-          </button>
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
@@ -81,51 +72,82 @@
 
           <label>Địa chỉ nhận hàng:</label>
           <textarea id="customer-address" required></textarea><br />
+          <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
+          <button
+            id="payment-button"
+            onclick="handlePayment()"
+            style="display: none"
+          >
+            Thanh toán
+          </button>
         </div>
 
         <!-- ================= VNPAY TOKEN FORM ================= -->
         <div id="token-form-section" style="display: none">
-          <h2>Tạo Token / Thanh toán & Tạo Token</h2>
-          <form id="tokenForm" onsubmit="submitForm(); return false;">
-            <label>Loại thao tác:</label>
-            <select
-              name="vnp_command"
-              id="vnp_command"
-              onchange="onCommandChange()"
-              required
-            >
-              <option value="token_create">Tạo Token (token_create)</option>
-              <option value="pay_and_create">
-                Thanh toán & Tạo Token (pay_and_create)
-              </option></select
-            ><br />
+          <!-- ✅ Tabs Header -->
+          <div class="token-tabs">
+            <button class="token-tab active" onclick="showTokenTab('create')">
+              ➕ Tạo Token / Pay & Create
+            </button>
+            <button class="token-tab" onclick="showTokenTab('pay')">
+              💳 Thanh toán bằng Token đã lưu
+            </button>
+          </div>
 
-            <label>User ID:</label>
-            <input
-              type="text"
-              name="vnp_app_user_id"
-              value="U001"
-              required
-            /><br />
-
-            
-            <label>Loại thẻ:</label>
-            <select name="vnp_card_type" required>
-              <option value="01">01 - Thẻ nội địa</option>
-              <option value="02">02 - Thẻ quốc tế</option></select
-            ><br />
-
-            </div>
-            <div id="storeTokenGroup" style="display: none">
-              <label>Lưu Token sau thanh toán?</label>
-              <select name="vnp_store_token" id="vnp_store_token">
-                <option value="">Có (mặc định)</option>
-                <option value="1">Không lưu</option></select
+          <!-- ✅ Tab Content: Tạo Token -->
+          <div id="token-create-tab" class="token-tab-content">
+            <h3>Tạo Token / Thanh toán & Tạo Token</h3>
+            <form id="tokenForm" onsubmit="submitForm(); return false;">
+              <label>Loại thao tác:</label>
+              <select
+                name="vnp_command"
+                id="vnp_command"
+                onchange="onCommandChange()"
+                required
+              >
+                <option value="token_create">Tạo Token (token_create)</option>
+                <option value="pay_and_create">
+                  Thanh toán & Tạo Token (pay_and_create)
+                </option></select
               ><br />
-            </div>
-  
-            <button type="submit">Gửi yêu cầu</button>
-          </form>
+
+              <label>User ID:</label>
+              <input
+                type="text"
+                name="vnp_app_user_id"
+                value="U001"
+                required
+              /><br />
+
+              <label>Loại thẻ:</label>
+              <select name="vnp_card_type" required>
+                <option value="01">01 - Thẻ nội địa</option>
+                <option value="02">02 - Thẻ quốc tế</option></select
+              ><br />
+
+              <div id="storeTokenGroup" style="display: none">
+                <label>Lưu Token sau thanh toán?</label>
+                <select name="vnp_store_token" id="vnp_store_token">
+                  <option value="">Có (mặc định)</option>
+                  <option value="1">Không lưu</option></select
+                ><br />
+              </div>
+
+              <button type="submit">Gửi yêu cầu</button>
+            </form>
+          </div>
+
+          <!-- ✅ Tab Content: Thanh toán bằng Token đã lưu -->
+          <div
+            id="token-pay-tab"
+            class="token-tab-content"
+            style="display: none"
+          >
+            <h3>Thanh toán bằng Token đã lưu</h3>
+            <label>Chọn Token đã lưu:</label>
+            <select id="saved-tokens"></select>
+            <button onclick="handleTokenPay()">Thanh toán bằng Token</button>
+          </div>
         </div>
 
         <!-- Bank list hiển thị sau khi chọn VNPAY Deeplink -->

@@ -12,6 +12,7 @@ function handleMethodChange() {
   if (method === 'vnpay-payment') {
     document.getElementById('payment-button').style.display = 'inline-block';
   } else if (method === 'vnpay-token') {
+    loadSavedTokens('User1');
     document.getElementById('token-form-section').style.display = 'block';
   } else if (method === 'vnpay-deeplink') {
     document.getElementById('deeplink-section').style.display = 'block';
@@ -19,6 +20,10 @@ function handleMethodChange() {
   }
 }
 
+function onCommandChange() {
+  const command = document.getElementById('vnp_command').value;
+  document.getElementById('storeTokenGroup').style.display = (command === 'pay_and_create') ? 'block' : 'none';
+}
 
 async function handlePayment() {  // Cách 1 sử dữ liệu từ frontend về theo param querystring
 
