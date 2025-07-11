@@ -15,8 +15,12 @@
       </div>
       <div class="header-right">
         <div class="cart-summary">
-          🧺 Tổng SP: <span id="cart-count">0</span><br />
-          Tổng tiền: <span id="cart-total">0</span> VND
+          🧺 Tổng SP:
+          <span id="cart-count">0</span>
+          <br />
+          Tổng tiền:
+          <span id="cart-total">0</span>
+          VND
         </div>
         <div class="header-buttons">
           <button id="view-cart-btn">Xem chi tiết</button>
@@ -39,59 +43,73 @@
 
           <label>
             <input type="radio" name="payment-method" value="direct" checked />
-            Trực tiếp </label
-          ><br />
+            Trực tiếp
+          </label>
+          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-payment" />
-            VNPAY Payment </label
-          ><br />
+            VNPAY Payment
+          </label>
+          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-deeplink" />
-            VNPAY Deeplink </label
-          ><br />
+            VNPAY Deeplink
+          </label>
+          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-token" />
-            VNPAY Token </label
-          ><br />
+            VNPAY Token
+          </label>
+          <br />
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-ib" />
+            VNPAY IB
+          </label>
+          <br />
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
         <div id="checkout-info" style="display: none">
           <h4>Thông tin khách hàng</h4>
           <label>Họ và tên:</label>
-          <input type="text" id="customer-name" required /><br />
+          <input type="text" id="customer-name" required />
+          <br />
 
           <label>Số điện thoại:</label>
-          <input type="tel" id="customer-phone" required /><br />
+          <input type="tel" id="customer-phone" required />
+          <br />
 
           <label>Email:</label>
-          <input type="email" id="customer-email" required /><br />
+          <input type="email" id="customer-email" required />
+          <br />
 
           <label>Địa chỉ nhận hàng:</label>
-          <textarea id="customer-address" required></textarea><br />
+          <textarea id="customer-address" required></textarea>
+          <br />
           <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
-          <button
-            id="payment-button"
-            onclick="handlePayment()"
-            style="display: none"
-          >
-            Thanh toán
-          </button>
+          <button id="payment-button" onclick="handlePayment()" style="display: none">Thanh toán</button>
+          <button id="payment-button-ib" onclick="handlePaymentIB()" style="display: none">Thanh toán IB</button>
         </div>
+        <!-- Form hidden để POST VNPAY -->
+        <form
+          id="payment_form"
+          method="POST"
+          action="https://sandbox.vnpayment.vn/biz-pay-svc/payment/pay"
+          style="display: none">
+          <input name="bpId" id="ispTxnId" type="text" />
+          <input name="dataKey" id="dataKey" type="text" />
+          <input name="tmnCode" id="tmnCode" type="text" />
+        </form>
 
         <!-- ================= VNPAY TOKEN FORM ================= -->
         <div id="token-form-section" style="display: none">
           <!-- ✅ Tabs Header -->
           <div class="token-tabs">
-            <button class="token-tab active" onclick="showTokenTab('create')">
-              ➕ Tạo Token / Pay & Create
-            </button>
-            <button class="token-tab" onclick="showTokenTab('pay')">
-              💳 Thanh toán bằng Token đã lưu
-            </button>
+            <button class="token-tab active" onclick="showTokenTab('create')">➕ Tạo Token / Pay & Create</button>
+            <button class="token-tab" onclick="showTokenTab('pay')">💳 Thanh toán bằng Token đã lưu</button>
           </div>
 
           <!-- ✅ Tab Content: Tạo Token -->
@@ -99,38 +117,30 @@
             <h3>Tạo Token / Thanh toán & Tạo Token</h3>
             <form id="tokenForm" onsubmit="submitForm(); return false;">
               <label>Loại thao tác:</label>
-              <select
-                name="vnp_command"
-                id="vnp_command"
-                onchange="onCommandChange()"
-                required
-              >
+              <select name="vnp_command" id="vnp_command" onchange="onCommandChange()" required>
                 <option value="token_create">Tạo Token (token_create)</option>
-                <option value="pay_and_create">
-                  Thanh toán & Tạo Token (pay_and_create)
-                </option></select
-              ><br />
+                <option value="pay_and_create">Thanh toán & Tạo Token (pay_and_create)</option>
+              </select>
+              <br />
 
               <label>User ID:</label>
-              <input
-                type="text"
-                name="vnp_app_user_id"
-                value="U001"
-                required
-              /><br />
+              <input type="text" name="vnp_app_user_id" value="U001" required />
+              <br />
 
               <label>Loại thẻ:</label>
               <select name="vnp_card_type" required>
                 <option value="01">01 - Thẻ nội địa</option>
-                <option value="02">02 - Thẻ quốc tế</option></select
-              ><br />
+                <option value="02">02 - Thẻ quốc tế</option>
+              </select>
+              <br />
 
               <div id="storeTokenGroup" style="display: none">
                 <label>Lưu Token sau thanh toán?</label>
                 <select name="vnp_store_token" id="vnp_store_token">
                   <option value="">Có (mặc định)</option>
-                  <option value="1">Không lưu</option></select
-                ><br />
+                  <option value="1">Không lưu</option>
+                </select>
+                <br />
               </div>
 
               <button type="submit">Gửi yêu cầu</button>
@@ -138,11 +148,7 @@
           </div>
 
           <!-- ✅ Tab Content: Thanh toán bằng Token đã lưu -->
-          <div
-            id="token-pay-tab"
-            class="token-tab-content"
-            style="display: none"
-          >
+          <div id="token-pay-tab" class="token-tab-content" style="display: none">
             <h3>Thanh toán bằng Token đã lưu</h3>
             <label>Chọn Token đã lưu:</label>
             <select id="saved-tokens"></select>
@@ -163,16 +169,16 @@
     <footer>Copyright © Phạm Văn Tú</footer>
 
     <!-- Scripts -->
+    <script src="scripts/config.js"></script>
     <script src="scripts/cart.js"></script>
     <script src="scripts/bankDeeplink.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/payment.js"></script>
     <script src="scripts/token.js"></script>
+    <script src="scripts/ibdoanhnghiep.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("service-worker.js")
-          .then(() => console.log("Service Worker registered!"));
+        navigator.serviceWorker.register("service-worker.js").then(() => console.log("Service Worker registered!"));
       }
     </script>
   </body>
