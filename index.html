@@ -69,6 +69,10 @@
             VNPAY IB
           </label>
           <br />
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-isp" />
+            VNPAY Trả góp
+          </label>
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
@@ -92,16 +96,27 @@
           <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
           <button id="payment-button" onclick="handlePayment()" style="display: none">Thanh toán</button>
           <button id="payment-button-ib" onclick="handlePaymentIB()" style="display: none">Thanh toán IB</button>
+          <button id="payment-button-isp" onclick="handlePaymentISP()" style="display: none">Thanh toán ISP</button>
         </div>
-        <!-- Form hidden để POST VNPAY -->
+        <!-- Form hidden để POST VNPAY IB Doanh nghiệp -->
         <form
-          id="payment_form"
+          id="payment_form_ib"
           method="POST"
           action="https://sandbox.vnpayment.vn/biz-pay-svc/payment/pay"
           style="display: none">
           <input name="bpId" id="ispTxnId" type="text" />
           <input name="dataKey" id="dataKey" type="text" />
           <input name="tmnCode" id="tmnCode" type="text" />
+        </form>
+        <!-- Form hidden để POST VNPAY Trả góp -->
+        <form
+          id="payment_form_isp"
+          method="POST"
+          action="https://sandbox.vnpayment.vn/isp-svc/payment/pay"
+          style="display: none">
+          <input name="bpId" id="ispTxnIdIsp" type="text" />
+          <input name="dataKey" id="dataKeyIsp" type="text" />
+          <input name="tmnCode" id="tmnCodeIsp" type="text" />
         </form>
 
         <!-- ================= VNPAY TOKEN FORM ================= -->
@@ -176,6 +191,7 @@
     <script src="scripts/payment.js"></script>
     <script src="scripts/token.js"></script>
     <script src="scripts/ibdoanhnghiep.js"></script>
+    <script src="scripts/isp.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js").then(() => console.log("Service Worker registered!"));

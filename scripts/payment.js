@@ -20,6 +20,8 @@ function handleMethodChange() {
     renderBankList(); // Gọi từ bankDeeplink.js
   } else if (method === "vnpay-ib") {
     document.getElementById("payment-button-ib").style.display = "inline-block";
+  } else if (method === "vnpay-isp") {
+    document.getElementById("payment-button-isp").style.display = "inline-block";
   }
 }
 
