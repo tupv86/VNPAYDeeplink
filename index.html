@@ -73,6 +73,7 @@
             <input type="radio" name="payment-method" value="vnpay-isp" />
             VNPAY Trả góp
           </label>
+          <br />
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
@@ -114,7 +115,7 @@
           method="POST"
           action="https://sandbox.vnpayment.vn/isp-svc/payment/pay"
           style="display: none">
-          <input name="bpId" id="ispTxnIdIsp" type="text" />
+          <input name="ispTxnId" id="ispTxnIdIsp" type="text" />
           <input name="dataKey" id="dataKeyIsp" type="text" />
           <input name="tmnCode" id="tmnCodeIsp" type="text" />
         </form>

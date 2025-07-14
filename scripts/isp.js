@@ -11,6 +11,8 @@ async function handlePaymentISP() {
   try {
     const response = await fetch(`${BASE_URL}${query}`);
     const result = await response.json();
+    const lastLog = localStorage.getItem("result");
+    console.log("Lần cuối gọi ISP:", JSON.parse(lastLog));
     console.log("✅ VNPAY init:", result);
     if (result.ispTxnId && result.dataKey && result.tmnCode) {
       // Đổ dữ liệu vào form hidden
