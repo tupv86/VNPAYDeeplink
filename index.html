@@ -38,42 +38,48 @@
         <h3>Chi tiết giỏ hàng</h3>
         <ul id="cart-list"></ul>
         <!-- ================= PAYMENT SECTION ================= -->
-        <div id="payment-section">
+        <div id="payment-section" style="display: flex; flex-direction: column">
           <h4>Chọn phương thức thanh toán</h4>
 
           <label>
             <input type="radio" name="payment-method" value="direct" checked />
             Trực tiếp
           </label>
-          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-payment" />
             VNPAY Payment
           </label>
-          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-deeplink" />
             VNPAY Deeplink
           </label>
-          <br />
 
           <label>
             <input type="radio" name="payment-method" value="vnpay-token" />
             VNPAY Token
           </label>
-          <br />
+
           <label>
             <input type="radio" name="payment-method" value="vnpay-ib" />
             VNPAY IB
           </label>
-          <br />
           <label>
             <input type="radio" name="payment-method" value="vnpay-isp" />
             VNPAY Trả góp
           </label>
-          <br />
+
+          <label>
+            <input type="radio" name="payment-method" value="vnpay-recurring" />
+            VNPAY Định kỳ
+          </label>
+
+          <!-- Thêm dòng này vào PAYMENT SECTION, cùng nhóm radio -->
+          <label>
+            <input type="radio" name="payment-method" value="seapay" />
+            SEAPAY QR
+          </label>
         </div>
 
         <!-- ================= CHECKOUT INFO ================= -->
@@ -97,7 +103,15 @@
           <!-- Nút Thanh toán chỉ cho VNPAY Payment -->
           <button id="payment-button" onclick="handlePayment()" style="display: none">Thanh toán</button>
           <button id="payment-button-ib" onclick="handlePaymentIB()" style="display: none">Thanh toán IB</button>
-          <button id="payment-button-isp" onclick="handlePaymentISP()" style="display: none">Thanh toán ISP</button>
+          <button id="payment-button-isp" onclick="handlePaymentISP()" style="display: none">Thanh toán trả góp</button>
+          <button id="payment-button-recurring" onclick="handlePaymentRecurring()" style="display: none">
+            Thanh toán định kỳ
+          </button>
+          <button id="payment-button-seapay" onclick="handlePaymentSeapay()" style="display: none">
+            Thanh toán SEAPAY
+          </button>
+
+          <br />
         </div>
         <!-- Form hidden để POST VNPAY IB Doanh nghiệp -->
         <form
@@ -120,6 +134,16 @@
           <input name="tmnCode" id="tmnCodeIsp" type="text" />
         </form>
 
+        <!-- Form hidden để POST VNPAY Trả góp -->
+        <form
+          id="payment_form_recurring"
+          method="POST"
+          action="https://sandbox.vnpayment.vn/isp-svc/recurring-payment/pay"
+          style="display: none">
+          <input name="ispTxnId" id="ispTxnIdRec" type="text" />
+          <input name="dataKey" id="dataKeyRec" type="text" />
+          <input name="tmnCode" id="tmnCodeRec" type="text" />
+        </form>
         <!-- ================= VNPAY TOKEN FORM ================= -->
         <div id="token-form-section" style="display: none">
           <!-- ✅ Tabs Header -->
@@ -193,10 +217,31 @@
     <script src="scripts/token.js"></script>
     <script src="scripts/ibdoanhnghiep.js"></script>
     <script src="scripts/isp.js"></script>
+    <script src="scripts/recurring.js"></script>
+    <script src="scripts/seapay.js"></script>
+
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js").then(() => console.log("Service Worker registered!"));
       }
+    </script>
+
+    <script>
+      // Gọi Apps Script API
+      fetch(`${BASE_URL}?action=getPaymentMethods`)
+        .then((res) => res.json())
+        .then((data) => {
+          const enabledMethods = data.enabledMethods;
+
+          // Duyệt toàn bộ input radio
+          document.querySelectorAll('#payment-section input[type="radio"]').forEach((input) => {
+            if (enabledMethods.includes(input.value)) {
+              input.parentElement.classList.remove("hidden");
+            } else {
+              input.parentElement.classList.add("hidden");
+            }
+          });
+        });
     </script>
   </body>
 </html>

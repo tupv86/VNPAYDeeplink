@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thanh toán QR PWA</title>
+  </head>
+  <body>
+    <h1>
+      Đơn hàng #
+      <span id="order-id"></span>
+    </h1>
+    <img id="qr-code" src="" alt="QR Thanh toán" style="max-width: 300px" />
+    <p>
+      Số tiền:
+      <span id="order-total"></span>
+      VND
+    </p>
+
+    <div id="success_pay_box" style="display: none">
+      <h2>✅ Thanh toán thành công!</h2>
+    </div>
+
+    <div id="checkout_box">
+      <p>⏳ Trạng thái: Chờ thanh toán...</p>
+    </div>
+
+    <script>
+      // === Dữ liệu bạn có thể lấy từ query URL hoặc localStorage ===
+      const orderId = localStorage.getItem("lastOrderId");
+      const orderTotal = localStorage.getItem("lastOrderAmount");
+
+      document.getElementById("order-id").innerText = orderId;
+      document.getElementById("order-total").innerText = orderTotal;
+
+      // === QR ===
+      const qrSrc = `https://qr.sepay.vn/img?bank=BIDV&acc=2111605991&template=TEMPLATE&amount=${orderTotal}&des=DH${orderId}`;
+      document.getElementById("qr-code").src = qrSrc;
+
+      // === Check status từ GAS ===
+      let pay_status = "Unpaid";
+
+      async function checkPaymentStatus() {
+        if (pay_status === "Unpaid") {
+          const response = await fetch(`${BASE_URL}?action=getOrderStatusSeapay&orderId=${orderId}`);
+          const data = await response.json();
+          console.log("GAS trả về:", data);
+
+          if (data.status === "Paid") {
+            document.getElementById("checkout_box").style.display = "none";
+            document.getElementById("success_pay_box").style.display = "block";
+            pay_status = "Paid";
+
+            // Xóa giỏ nếu cần
+            localStorage.removeItem("cart");
+            localStorage.removeItem("lastOrderId");
+          }
+        }
+      }
+
+      setInterval(checkPaymentStatus, 3000); // 3s/lần
+    </script>
+    <script src="scripts/config.js"></script>
+  </body>
+</html>
